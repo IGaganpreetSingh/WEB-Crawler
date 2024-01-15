@@ -8,6 +8,9 @@ import swaggerUi from "swagger-ui-express";
 import swaggerDocument from "../swagger-output.json" assert { type: "json" };
 import GPTCrawlerCore from "./core.js";
 import { PathLike } from "fs";
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import path from 'path';
 
 configDotenv();
 
@@ -29,7 +32,10 @@ app.post("/crawl", async (req, res) => {
     const outputFileName: PathLike = await crawler.write();
     const outputFileContent = await readFile(outputFileName, "utf-8");
     res.contentType("application/json");
-    return res.send(outputFileContent);
+    app.use(express.static('public')) 
+    app.use(express.static(path.join(dirname(fileURLToPath(import.meta.url)), '..', 'public')));
+
+    return res.send("outputFileContent");
   } catch (error) {
     return res
       .status(500)
