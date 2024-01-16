@@ -15,7 +15,7 @@ import path from 'path';
 configDotenv();
 
 const app: Express = express();
-const port = Number(process.env.API_PORT) || 5000;
+const port = Number(process.env.API_PORT) || 3000;
 const hostname = process.env.API_HOST || "localhost";
 
 app.use(cors());
@@ -28,16 +28,14 @@ app.post("/crawl", async (req, res) => {
   try {
     const validatedConfig = configSchema.parse(config);
     const crawler = new GPTCrawlerCore(validatedConfig);
-    
     await crawler.crawl();
     const outputFileName: PathLike = await crawler.write();
     const outputFileContent = await readFile(outputFileName, "utf-8");
     res.contentType("application/json");
     app.use(express.static('public')) 
     app.use(express.static(path.join(dirname(fileURLToPath(import.meta.url)), '..', 'public')));
-    res.send("outputFileContent");
-    process.exit(1);
-    
+
+    return res.send("outputFileContent");
   } catch (error) {
     return res
       .status(500)
