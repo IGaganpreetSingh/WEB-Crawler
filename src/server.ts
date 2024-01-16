@@ -37,7 +37,6 @@ app.post("/crawl", async (req, res) => {
     app.use(express.static(path.join(dirname(fileURLToPath(import.meta.url)), '..', 'public')));
     res.send("outputFileContent");
     process.exit(1);
-    
   } catch (error) {
     return res
       .status(500)
