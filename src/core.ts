@@ -54,9 +54,11 @@ export async function crawl(config: Config) {
   if (process.env.NO_CRAWL !== "true") {
     // PlaywrightCrawler crawls the web using a headless
     // browser controlled by the Playwright library.
+    
     crawler = new PlaywrightCrawler({
       // Use the requestHandler to process each of the crawled pages.
       async requestHandler({ request, page, enqueueLinks, log, pushData }) {
+        
         const title = await page.title();
         pageCounter++;
         log.info(
