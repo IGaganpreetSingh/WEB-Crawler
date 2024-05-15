@@ -29,7 +29,17 @@ app.post("/crawl", async (req, res) => {
     const outputFileName: PathLike = await crawler.write();
     const outputFileContent = await readFile(outputFileName, "utf-8");
     res.contentType("application/json");
-    return res.send(outputFileContent);
+
+    let arr = JSON.parse(outputFileContent)
+    let obj:any = []
+    for (let index = 0; index < arr.length; index++) {
+      const element:any = arr[index];
+      if(!element?.url?.includes("https://cointelegraph.com/tags/")){
+        obj.push(element)
+      }
+    }
+    // return res.send(obj);
+    return res.send(JSON.stringify(obj));
   } catch (error) {
     return res
       .status(500)

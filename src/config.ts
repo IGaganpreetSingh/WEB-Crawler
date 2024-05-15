@@ -34,7 +34,7 @@ export const configSchema = z.object({
   selector: z.string().optional(),
   /**
    * Don't crawl more than this many pages
-   * @default 50
+   * @default 2
    */
   maxPagesToCrawl: z.number().int().positive(),
   /**
